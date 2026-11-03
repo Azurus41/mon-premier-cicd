@@ -1,15 +1,17 @@
-name: Mon premier pipeline CI
+name: Verification de mon site
 on:
   push:
     branches:
       - main
 jobs:
-  verification:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Afficher un message
-        run: echo "Bonjour, mon premier pipeline CI !"
-      - name: Afficher la date
-        run: date
-      - name: Afficher le contenu du dépôt
-        run: ls -la
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+      - name: Verifier index.html
+        run: test -f index.html
+      - name: Verifier le titre du site
+        run: grep -q "<title>" index.html
+      - name: Afficher le resultat
+        run: echo "Tous les tests sont reussis !"
